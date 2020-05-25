@@ -1,0 +1,133 @@
+---
+title: "Week 7"
+author: "Jaymeen Gandhi"
+date: "November 4, 2019"
+output:
+  word_document: default
+  html_document: default
+---
+```{r}
+require(tidyverse)
+```
+```{r}
+poverty=read_delim('D:/Into data mining, visulization(Prof.yegin)/Poverty.txt', delim='\t')
+poverty
+
+```
+
+```{r}
+require(lattice)
+```
+
+```{r}
+xyplot(Poverty~Graduates, data = poverty)
+```
+
+```{r}
+ggplot(data=poverty)+geom_point(aes(x=Graduates, y=Poverty))+geom_smooth(method='lm', aes(x=Graduates, y=Poverty) ,fill=NA)
+```
+
+```{r}
+lm ( Poverty ~ Graduates,data=poverty)
+```
+
+```{r}
+plot(Poverty ~ Graduates, data = poverty, ylab =
+"% in Poverty",
+xlab =
+"%Graduates")
+lm_pov_grad = lm(poverty$Poverty ~ poverty$Graduates)
+abline(lm_pov_grad)
+```
+
+
+
+
+```{r}
+lm(formula = Graduates ~ Poverty  , data = poverty)
+```
+
+
+```{r}
+my_model=lm(formula = Poverty ~ Graduates    , data = poverty)
+```
+```{r}
+summary(my_model)
+```
+
+```{r}
+plot(MetropolitanResidence ~ White, data = poverty, ylab =
+"% in MetropolitanResidence",
+xlab =
+"%White")
+lm_pov_grad = lm(poverty$MetropolitanResidence ~ poverty$White)
+abline(lm_pov_grad)
+```
+
+```{r}
+my_model2=lm(formula = MetropolitanResidence ~ White    , data = poverty)
+```
+
+```{r}
+summary(my_model2)
+```
+
+
+```{r}
+require(lattice)
+xyplot(Poverty~Graduates , data = poverty)
+```
+
+```{r}
+cor(poverty$Graduates,poverty$Poverty)
+```
+
+```{r}
+my_model=lm(Poverty~Graduates,data = poverty)
+summary(my_model)
+##poverty=64.78-0.62*Graduates
+##if graduation rate increase by 1 unit than it decrases the poverty by 0.62 units.
+```
+
+```{r}
+my_model2=lm(Poverty~White,data = poverty)
+summary(my_model2)
+##povert=16.975-0.06*whites
+##if graduation rate increase by 1 unit than it decrases the poverty by 0.06 units
+##Not a good model chech r squared is 0.09 ie 9%
+##When the population of white is 0 than 16.95 times will increase the poverty.
+```
+
+```{r}
+my_multi_model=lm(Poverty~Graduates +White,data = poverty)
+summary(my_multi_model)
+##poverty=64.94-0.59Graduates-0.03whites
+##if graduation rate increase by 1 unit than it decrases the poverty by 0.59 units and the whites be constant.
+##poverty=a*graduates+b*whites+c*blacks
+```
+
+```{r}
+my_multi_model2=lm(Poverty~Graduates +White +MetropolitanResidence +SingleFemaleHousehold,data = poverty)
+summary(my_multi_model2)
+## A unit increase in metroplRES will decrease the poverty by 0.05 , if every other variable is kept constant
+##For significance check the last column ie p value.SingleFemHos is the less significant and also check the stars in p value the one without star has to be removed.
+```
+
+```{r}
+my_multi_model3=lm(Poverty~Graduates +White +MetropolitanResidence,data = poverty)
+summary(my_multi_model3)
+##This will be the best model since Rsquared is 60% and p value is very low.
+```
+
+```{r}
+require(leaps)
+```
+
+
+```{r}
+lps=regsubsets(Poverty~MetropolitanResidence+White+Graduates+SingleFemaleHousehold, data=poverty, method='backward') 
+plot(lps, scale="adjr2" )
+```
+
+
+## Here we see the relationship of poverty with various other attributes.
