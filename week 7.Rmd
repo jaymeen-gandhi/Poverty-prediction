@@ -1,0 +1,73 @@
+---
+title: "Week 7"
+author: "Jaymeen Gandhi"
+date: "November 4, 2019"
+output: html_document
+---
+```{r}
+require(tidyverse)
+```
+```{r}
+poverty=read_delim('D:/Into data mining, visulization(Prof.yegin)/Poverty.txt', delim='\t')
+poverty
+
+```
+
+```{r}
+require(lattice)
+```
+
+```{r}
+xyplot(Poverty~Graduates, data = poverty)
+```
+
+```{r}
+ggplot(data=poverty)+geom_point(aes(x=Graduates, y=Poverty))+geom_smooth(method='lm', aes(x=Graduates, y=Poverty) ,fill=NA)
+```
+
+```{r}
+lm ( Poverty ~ Graduates,data=poverty)
+```
+
+```{r}
+plot(Poverty ~ Graduates, data = poverty, ylab =
+"% in Poverty",
+xlab =
+"%Graduates")
+lm_pov_grad = lm(poverty$Poverty ~ poverty$Graduates)
+abline(lm_pov_grad)
+```
+
+
+
+
+```{r}
+lm(formula = Graduates ~ Poverty  , data = poverty)
+```
+
+
+```{r}
+my_model=lm(formula = Poverty ~ Graduates    , data = poverty)
+```
+```{r}
+summary(my_model)
+```
+
+```{r}
+plot(MetropolitanResidence ~ White, data = poverty, ylab =
+"% in MetropolitanResidence",
+xlab =
+"%White")
+lm_pov_grad = lm(poverty$MetropolitanResidence ~ poverty$White)
+abline(lm_pov_grad)
+```
+
+```{r}
+my_model2=lm(formula = MetropolitanResidence ~ White    , data = poverty)
+```
+
+```{r}
+summary(my_model2)
+```
+
+## Here we see the relationship of poverty with various other attributes.
